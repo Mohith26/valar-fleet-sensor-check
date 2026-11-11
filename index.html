@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instrument Health · Valar Atomics (concept)</title>
+<link rel="icon" href="assets/emblem.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800;125,900&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" aria-label="Valar Atomics"><img src="assets/emblem.svg" alt="" class="emb"><img src="assets/wordmark.svg" alt="Valar Atomics" class="wm"></a>
+  <nav class="links">
+    <a>Gigasite A</a><a>Units</a><a class="on">Instrument health</a><a>Work orders</a><a>Docs</a>
+  </nav>
+  <div class="clock" id="clock"></div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Operations / Block A / Core-outlet thermocouples</div>
+      <h1>INSTRUMENT HEALTH</h1>
+    </div>
+    <p class="lede" id="lede"></p>
+  </section>
+
+  <section class="kpis" id="kpis"></section>
+
+  <section class="grid2">
+    <div class="panel">
+      <div class="ph"><span class="lbl">Fleet · 48 units × 10 channels</span><span class="legend"><i class="lg ok"></i>Nominal<i class="lg watch"></i>Building evidence<i class="lg alarm"></i>Flagged<i class="lg unit"></i>Unit-wide</span></div>
+      <div class="fleet" id="fleet"></div>
+      <div class="scrub">
+        <span class="lbl">Replay</span>
+        <input type="range" id="day" min="21" max="179" value="179">
+        <span class="mono" id="daylbl"></span>
+      </div>
+    </div>
+    <div class="panel unitp" id="unit"></div>
+  </section>
+
+  <section class="grid3">
+    <div class="panel span2" id="chart"></div>
+    <div class="panel" id="compare"></div>
+  </section>
+  <footer class="foot">Unofficial concept demo by Mohith Gajjela. Not affiliated with Valar Atomics. Synthetic data; channel names follow the TE3401 channels in “Ward 250 By the Numbers”.</footer>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>
