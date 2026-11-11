@@ -93,7 +93,8 @@ function renderUnit() {
   const nA = CHANNELS.filter((_, k) => chStatus(u, k, d) === 'a').length;
   const stat = ua ? `<span class="ustat alarm">Unit-wide flag · day ${det.alarmU[u]}</span>` : nA ? `<span class="ustat alarm">${nA} channel flag${nA > 1 ? 's' : ''}</span>` : '<span class="ustat">Nominal</span>';
   const rows = CHANNELS.map((name, k) => {
-    const meas = sim.temp[u][k][t], pred = A.res.pred[u][k][t];
+    const t0 = d * STEPS_PER_DAY, avg = arr => { let x = 0; for (let i = t0; i < t0 + STEPS_PER_DAY; i++) x += arr[i]; return x / STEPS_PER_DAY; };
+    const meas = avg(sim.temp[u][k]), pred = avg(A.res.pred[u][k]);
     const ev = log10(det.trace[u][k][d]);
     const st = chStatus(u, k, d);
     return `<tr data-k="${k}" class="${k === state.ch ? 'sel' : ''}"><td>${name}</td><td>${meas.toFixed(1)}</td><td>${pred.toFixed(1)}</td><td>${fmt(meas - pred)}</td><td><span class="ev"><i class="${st === 'ok' ? '' : st}" style="width:${Math.min(100, 100 * ev / CH_TH).toFixed(0)}%"></i></span></td><td><span class="st ${st}">${st === 'a' ? 'Flag' : st === 'w' ? 'Watch' : 'OK'}</span></td></tr>`;
@@ -113,7 +114,7 @@ function renderUnit() {
   $('#unit').innerHTML = `
     <div class="uh"><div><div class="uname">${un.name}</div><div class="umeta">Power ${Math.round(100 * sim.P[u][t])}% · inlet ${sim.Tin[u][t].toFixed(0)}°C · He flow ${(100 * sim.mdot[u][t]).toFixed(0)}% · day ${d}</div></div>${stat}</div>
     <div class="ubody">${ringSVG(u, d)}
-      <table class="ch"><thead><tr><th>Channel</th><th>Read °C</th><th>Expected</th><th>Δ</th><th>Evidence</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+      <table class="ch"><thead><tr><th>Channel</th><th>Day avg °C</th><th>Expected</th><th>Δ</th><th>Evidence</th><th></th></tr></thead><tbody>${rows}</tbody></table>
     </div>${note}`;
   document.querySelectorAll('#unit tr[data-k], #unit g[data-k]').forEach(r => r.onclick = () => { state.ch = Number(r.dataset.k); renderAll(); });
 }
